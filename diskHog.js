@@ -30,5 +30,12 @@ const getAllFiles = function(directoryPath, arrayOfFiles) {
 
 
 const result1 = getAllFiles(currendDir)
-console.log(result1.CS3380.Notes['Spikes']['readme.txt'])
-//console.log(result1)
+//console.log(result1.CS3380.Notes['Spikes']['readme.txt'])
+console.log(result1)
+
+
+//TODO
+/*
+-need to change the folder object to include size, name and children
+-need to clean up data structure to look like notes1012
+*/
