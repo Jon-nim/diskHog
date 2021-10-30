@@ -1,0 +1,16 @@
+[LANG: es_SV]
+Usage: node diskhog [arguments]
+-p, --path <path value>, the relative or absolute path name of a file or directory. 
+    Default is . (current working directory
+-s, --sort <alpha | size>. If -s or --sort is missing, default is unsorted.
+    alpha sorts alphabetically (ascending)
+    size sorts by size (descending)
+    If -s or --sort is present but missing alpha or size, default is size.
+-m, --metric, sizes displayed as KB, MB, GB, and TB.
+-t, --threshold <min>, only displays files and folders of at least minimum size. 
+    min is the number of millions. Default is 1.
+-lang, --language <2 letter language code_2 letter country code>. 
+    Default is environment variable LANG. en_us (English, United States) if it doesn't exist.
+    Could change the help text and the number format when showing file sizes. 
+-h, --help prints this usage screen. Uses -lang, --language (or default) described above.
+    All other parameters are ignored.
