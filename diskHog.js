@@ -41,7 +41,7 @@ const calcSize = function(root){
     return totalSize
 
 }
-const printToScreen = function(tree, metric, threshold, tabs = 0){
+const printToScreen = function(tree, metric, threshold, sortType, tabs = 0){
     let numberOfTabs = ' '.repeat(tabs * 2)
     if(tree.size > (threshold * 1000000)){
         if(metric){
@@ -52,8 +52,11 @@ const printToScreen = function(tree, metric, threshold, tabs = 0){
         }
     }
     if(tree.children == undefined){return}
-    for(child of tree.children){
-        {printToScreen(child, metric, threshold, tabs+1)}
+    let sorted = tree.children;
+    if(sortType == "alpha") sorted = sortAlpha(sorted)
+    if(sortType == "size") sorted = sortSize(sorted)
+    for(child of sorted){
+        {printToScreen(child, metric, threshold, sortType, tabs+1)}
     }
 }
 
@@ -92,7 +95,7 @@ function getLang(args){
 function getPath(args){
     for(let i =0; i < args.length; i++){
         if (args[i] == "-p" || args[i] == "--p"){
-            return args[i+1]
+            return args[i+1].replace('"', '')
         }
     }
     return "./"
@@ -112,16 +115,26 @@ function getThreshold(args){
     return 1
 }
 
-function sortProperties(obj)
-{
-    var items = Object.keys(obj).map(function(key) {
-        return [key, obj[key]];
-    });
-    items.sort(function(first, second) {
-        return second[1] - first[1];
-    });
+function sortSize(array){
+    return array.sort(function(a,b){
+        return b.size - a.size
+    })
+}
 
-    return items
+function sortAlpha(array){
+    return array.sort(function(a,b){
+        return a.name - b.name
+    })
+}
+
+function sortType(args){
+    for(let i =0; i < args.length; i++){
+        if (args[i] == "-s" || args[i] == "--sort"){
+            if(args[i+1] == "size" || args[i+1] == "alpha")return args[i+1]
+            return "size"
+        }
+    }
+    return ""
 }
 
 function main() {
@@ -137,14 +150,11 @@ function main() {
     let lang = getLang(args)
     let metric = getMetric(args)
     let threshold = getThreshold(args)
+    let sortT = sortType(args)
     help(args, lang)
     
     const result1 = getAllFiles(dir, root)
-    result1.children.sort()
-    //console.log(result1)
-    //let result2 = sortProperties(result1)
-    printToScreen(result1, metric, threshold)
-    //printToScreen(result1, metric, threshold)
+    printToScreen(result1, metric, threshold, sortT)
 
     
 }
